@@ -29,10 +29,12 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public Member login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse resp) {
+    public String login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse resp) {
 
-        resp.addHeader("Authentication", "JWT 토큰");
+        String accessToken = memberService.genAccessToken(loginRequest.getUsername(), loginRequest.getPassword());
 
-        return memberService.findByUsername(loginRequest.getUsername()).orElse(null);
+        resp.addHeader("Authentication", accessToken);
+
+        return "응답본문";
     }
 }
