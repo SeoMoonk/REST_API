@@ -14,6 +14,7 @@ import java.util.Map;
 
 @Component
 public class JwtProvider {
+
     private SecretKey cachedSecretKey;
 
     @Value("${custom.jwt.secretKey}")
@@ -25,7 +26,10 @@ public class JwtProvider {
     }
 
     public SecretKey getSecretKey() {
-        if (cachedSecretKey == null) cachedSecretKey = _getSecretKey();
+
+        if (cachedSecretKey == null) {
+            cachedSecretKey = _getSecretKey();
+        }
 
         return cachedSecretKey;
     }
@@ -41,7 +45,9 @@ public class JwtProvider {
                 .compact();
     }
 
+
     public boolean verify(String token) {
+
         try {
             Jwts.parserBuilder()
                     .setSigningKey(getSecretKey())
